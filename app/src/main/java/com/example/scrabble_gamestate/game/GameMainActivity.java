@@ -44,6 +44,7 @@ import com.example.scrabble_gamestate.R;
  */
 public abstract class GameMainActivity extends Activity implements
         View.OnClickListener {
+    //test from mere
 
     /*
      * ====================================================================
