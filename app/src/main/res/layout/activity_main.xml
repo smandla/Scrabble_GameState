@@ -69,14 +69,14 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/swapTileButtton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/colorAccent"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/scrabswap" />
+                <ImageButton
+                    android:id="@+id/swapTileButtton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/scrabswap" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,8 +93,8 @@
                     android:background="@color/colorAccent"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
-                    android:visibility="visible"
-                    android:src="@drawable/scrabshuff" />
+                    android:src="@drawable/scrabshuff"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout

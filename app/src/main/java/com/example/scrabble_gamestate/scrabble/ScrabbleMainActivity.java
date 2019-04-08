@@ -1,7 +1,7 @@
 package com.example.scrabble_gamestate.scrabble;
 
 
-import com.example.scrabble_gamestate.r;
+import com.example.scrabble_gamestate.R;
 import com.example.scrabble_gamestate.game.GameMainActivity;
 import com.example.scrabble_gamestate.game.GamePlayer;
 import com.example.scrabble_gamestate.game.LocalGame;

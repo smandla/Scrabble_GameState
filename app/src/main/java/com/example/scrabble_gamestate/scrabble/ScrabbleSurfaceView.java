@@ -239,7 +239,7 @@ public class ScrabbleSurfaceView extends SurfaceView {
                 else
                 {
                     //changes board into an array of ints based on char
-                    int indexIntoArray = aBoard[x][y].getTileLetter()-'A';
+                    int indexIntoArray = aBoard[x][y].getTileLetter()-'a';
                     //draws a new Bitmap for the place in the index
                     canvas.drawBitmap( tileLetters[indexIntoArray],
                             x*TILE_WIDTH_AND_HEIGHT,y*TILE_WIDTH_AND_HEIGHT,null);
