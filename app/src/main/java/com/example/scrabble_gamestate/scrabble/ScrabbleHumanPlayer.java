@@ -5,6 +5,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.scrabble_gamestate.R;
+import com.example.scrabble_gamestate.game.Game;
 import com.example.scrabble_gamestate.game.GameHumanPlayer;
 import com.example.scrabble_gamestate.game.GameMainActivity;
 import com.example.scrabble_gamestate.game.Tile;
@@ -44,6 +45,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
     // the android activity that we are running
     private GameMainActivity myActivity;
+    //the surfaceView we're drawing on
     private ScrabbleSurfaceView surface;
 
     ScrabbleGameState latestState = new ScrabbleGameState();
@@ -94,9 +96,9 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         //updates the image resources in the hand to match the value in the tile array
         //TODO after alpha, need to deal with the possibility that human isn't player one
         //make each image button look like the tiles in the human player's hand
-        for (Tile t: state.getHand0()) {
+        for (Tile t: state.getHand1()) {
             int androidId = t.getAndroidId();
-            int index = state.getHand0().indexOf(t);
+            int index = state.getHand1().indexOf(t);
             buttons[index].setImageResource(androidId);
         }
     }
@@ -128,10 +130,10 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         theController.setUpdatedState(this.state);
         updateDisplay();
 
-        surface.setState((ScrabbleGameState) info);
-        surface.invalidate();
+        surface.setState((ScrabbleGameState) info);//makes sure the state isn't null
+        surface.invalidate();//updates the gui view
 
-    }
+    }//note: we used Meredith's Uno game from last semester as an example and reference
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
