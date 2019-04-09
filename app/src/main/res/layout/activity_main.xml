@@ -147,6 +147,21 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/whosTurn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="30dp"
+                    android:text="Whos turn is it?" />
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/myProfileImage"
                 android:layout_width="wrap_content"
@@ -401,6 +416,21 @@
                 android:background="@color/colorAccent"
                 android:scaleType="centerInside"
                 android:src="@drawable/playbutton" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/recallTiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Recall Tiles"
+                android:paddingRight="30dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
