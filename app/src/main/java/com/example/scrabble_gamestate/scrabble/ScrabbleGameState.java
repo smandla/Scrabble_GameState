@@ -186,7 +186,7 @@ public class ScrabbleGameState extends GameState {
             hand2.add(copy);
         }
 
-        //TODO triblehorn fixes
+        //TODO triblehorn fixes!
         onBoard = new ArrayList<Tile>(7);
         for (Tile t : state.onBoard) {
             Tile copy = new Tile(t);
