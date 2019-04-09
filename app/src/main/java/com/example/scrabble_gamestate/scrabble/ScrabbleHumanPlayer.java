@@ -156,7 +156,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
             receiveInfo(state);
         }
 
-        //state.loadDictionary( myActivity.getApplicationContext());
+        //state.loadDictionary( myActivity.getApplicationContext()); /
 
         ourScore = activity.findViewById(R.id.playerScore);
         opponentScore = activity.findViewById(R.id.opponentScore);
