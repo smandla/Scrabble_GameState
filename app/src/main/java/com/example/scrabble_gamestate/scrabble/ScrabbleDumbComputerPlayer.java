@@ -80,7 +80,7 @@ public class ScrabbleDumbComputerPlayer extends GameComputerPlayer implements Ti
 //                        (latestState.getBoard()[row - 1][column] == null) &&
 //                        (latestState.getBoard()[row + 1][column] == null)) {
 //                    if (alreadyPlayedLetter != null) {
-//                        for (Tile t : latestState.getHand2() ) {
+//                        for (Tile t : latestState.getHand1() ) {
 //                            if (!letters.contains(t.getTileLetter())) {
 //
 //                                letters.add(t.getTileLetter());
@@ -117,7 +117,7 @@ public class ScrabbleDumbComputerPlayer extends GameComputerPlayer implements Ti
 //                            int alreadyPlayedY = alreadyPlayedTile.getyCoord();
 //
 //                            for (int j = word.length(); j > 0; j++) {
-//                                for (Tile t : latestState.getHand2()) {
+//                                for (Tile t : latestState.getHand1()) {
 //                                    //TODO: THIS MAY OR MAY NOT WORK
 //                                    if ((t.getTileLetter() == word.charAt(j)) &&
 //                                            latestState.getBoard()[alreadyPlayedX - j][alreadyPlayedY] == null) {

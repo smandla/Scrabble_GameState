@@ -5,7 +5,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.scrabble_gamestate.R;
-import com.example.scrabble_gamestate.game.Game;
 import com.example.scrabble_gamestate.game.GameHumanPlayer;
 import com.example.scrabble_gamestate.game.GameMainActivity;
 import com.example.scrabble_gamestate.game.Tile;
@@ -45,7 +44,6 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
     // the android activity that we are running
     private GameMainActivity myActivity;
-    //the surfaceView we're drawing on
     private ScrabbleSurfaceView surface;
 
     ScrabbleGameState latestState = new ScrabbleGameState();
@@ -70,9 +68,8 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
      */
     @Override
     protected void initAfterReady() {
-        surface.setGame(game);//tells the surface what game we're playing
+        surface.setGame(game);
     }
-    //note: we went into Kearney's office hours to get help with the logic of this function
 
     /**
      * Returns the GUI's top view object
@@ -94,12 +91,12 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
         ImageButton[] buttons = {tileOneButton, tileTwoButton, tileThreeButton, tileFourButton,
                 tileFiveButton, tileSixButton, tileSevenButton};
-        //updates the image reaources in the hand to match the value in the tile array
+        //updates the image resources in the hand to match the value in the tile array
         //TODO after alpha, need to deal with the possibility that human isn't player one
         //make each image button look like the tiles in the human player's hand
-        for (Tile t: state.getHand1()) {
+        for (Tile t: state.getHand0()) {
             int androidId = t.getAndroidId();
-            int index = state.getHand1().indexOf(t);
+            int index = state.getHand0().indexOf(t);
             buttons[index].setImageResource(androidId);
         }
     }
@@ -128,15 +125,13 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         // update our state; then update the display
         this.state = (ScrabbleGameState) info;
 
-        theController.setUpdatedState(this.state);//makes sure the state isn't null
-        // (in theory, at least)
-        theController.setGame(this.game);
+        theController.setUpdatedState(this.state);
         updateDisplay();
 
-        surface.setState((ScrabbleGameState) info);//makes sure the state isn't null
-        surface.invalidate();//updates the gui view
+        surface.setState((ScrabbleGameState) info);
+        surface.invalidate();
 
-    }//note: we used Meredith's Uno game from last semester as an example and reference
+    }
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
@@ -153,16 +148,13 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.activity_main);
 
-        surface = myActivity.findViewById(R.id.surfaceView);//tells the surface what activity to
-        // look for
+        surface = myActivity.findViewById(R.id.surfaceView);
 
         if (state != null) {
             receiveInfo(state);
         }
 
-        //                                                                                                                                   TODO uncomment after other fixes
-        //state.loadDictionary( myActivity.getApplicationContext());//gives the dictionary method
-        // context
+        //state.loadDictionary( myActivity.getApplicationContext());
 
         ourScore = activity.findViewById(R.id.playerScore);
         opponentScore = activity.findViewById(R.id.opponentScore);
