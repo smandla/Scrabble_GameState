@@ -6,9 +6,12 @@ import com.example.scrabble_gamestate.R;
 import com.example.scrabble_gamestate.game.Tile;
 import com.example.scrabble_gamestate.game.infoMsg.GameState;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Vector;
 /**
  *The State of the game. Includes values for all tiles, the tile bag, and each square on the board.
  *
@@ -90,11 +93,11 @@ public class ScrabbleGameState extends GameState {
     private int playerZeroId;
     private int playerOneId;
 
-    private int positionInHand; //the index of a tile in a hand
+    private int positionInHand;//the index of a tile in a hand
 
     private ArrayList<Tile> tileBag = new ArrayList<Tile>(100);
-    private ArrayList<Tile> hand0 = new ArrayList<Tile>(7);
-    private ArrayList<Tile> hand1 = new ArrayList<Tile>(7);
+    private ArrayList<Tile> hand1 = new ArrayList<Tile>(7); //should be hand0
+    private ArrayList<Tile> hand2 = new ArrayList<Tile>(7); //should be hand1
     //shows the location of any tile placed on the board during one turn
     private ArrayList<Tile> onBoard;
 
@@ -133,8 +136,8 @@ public class ScrabbleGameState extends GameState {
         shuffleTileBag();
 
         //add seven tiles to each player's hand
-        drawTile(hand0);
         drawTile(hand1);
+        drawTile(hand2);
 
 
         onBoard = new ArrayList<Tile>(7);
@@ -167,28 +170,24 @@ public class ScrabbleGameState extends GameState {
         //making a Tile copy of each Tile in The One True tileBag, then adding it to a copy tileBag
         //don't need to actually make/shuffle a new tilebag,
         // as it already exists in The One True State
-
-        //TODO should all the initial capactities be 0?
-
-        tileBag = new ArrayList<Tile>(0);
         for (Tile t : state.tileBag) {
             Tile copy = new Tile(t);
             tileBag.add(copy);
         }
 
-        hand0 = new ArrayList<Tile>(0);
-        for (Tile t : state.hand0) {
-            Tile copy = new Tile(t);
-            hand0.add(copy);
-        }
-
-        hand1 = new ArrayList<Tile>(0);
         for (Tile t : state.hand1) {
             Tile copy = new Tile(t);
             hand1.add(copy);
         }
 
-        onBoard = new ArrayList<Tile>(0);
+
+        for (Tile t : state.hand2) {
+            Tile copy = new Tile(t);
+            hand2.add(copy);
+        }
+
+        //TODO triblehorn fixes
+        onBoard = new ArrayList<Tile>(7);
         for (Tile t : state.onBoard) {
             Tile copy = new Tile(t);
             onBoard.add(copy);
@@ -287,15 +286,15 @@ public class ScrabbleGameState extends GameState {
     }
     //no tileBag setter needed
 
-    public ArrayList<Tile> getHand0(){
-        return hand0;
-    }
-    //no hand0 setter needed
-
     public ArrayList<Tile> getHand1(){
         return hand1;
     }
     //no hand1 setter needed
+
+    public ArrayList<Tile> getHand2(){
+        return hand2;
+    }
+    //no hand2 setter needed
 
     public Tile[][] getBoard(){
         return board;
@@ -310,7 +309,6 @@ public class ScrabbleGameState extends GameState {
     public int getTurn(){
         return turn;
     }
-
 
     public void setTurn(int turnId){
         turn = turnId;
@@ -332,9 +330,7 @@ public class ScrabbleGameState extends GameState {
         enoughPlayers = enoughP;
     }
 
-    public int getPositionInHand() {
-        return positionInHand;
-    }
+    public int getPositionInHand() { return positionInHand;}
     //end of getters and setters
 
     /**
@@ -535,12 +531,12 @@ public class ScrabbleGameState extends GameState {
         }
 
         str = str + "\n Hand 1: ";
-        for (Tile t: hand0) {
+        for (Tile t: hand1) {
             str = str + "\nPoints: " + t.getPointVal() + " Letter: " + t.getTileLetter();
         }
 
         str = str + "\n Hand 2: ";
-        for (Tile t: hand1) {
+        for (Tile t: hand2) {
             str = str + "\nPoints: " + t.getPointVal() + " Letter: " + t.getTileLetter();
         }
 
@@ -586,15 +582,6 @@ public class ScrabbleGameState extends GameState {
                 tile.setxCoord(xPosition);
                 tile.setyCoord(yPosition);
                 onBoard.add(tile);
-
-                //remove tile from hand so that we can't place it twice
-                //TODO even after this line of code executes, the selected tile is still in the hand!
-                //hand0.remove(tile.getPositionInHand());
-
-                //remove from hand will shift everything in arrayList left by one
-                //so what happens when drawing? onDraw just deals with the board itself, not the hand
-                //
-
                 return true;
             }
             else
@@ -747,12 +734,12 @@ public class ScrabbleGameState extends GameState {
 //            if(turn == 1) {
 //                playerZeroScore += (counter * wordBonusVal);
 //                turn++;
-//                this.drawTile(hand0);
+//                this.drawTile(hand1);
 //            }
 //            else {
 //                playerOneScore += (counter * wordBonusVal);
 //                turn--;
-//                this.drawTile(hand1);
+//                this.drawTile(hand2);
 //            }
 //            onBoard.clear();
 //            return true;
@@ -797,10 +784,10 @@ public class ScrabbleGameState extends GameState {
         if(turnId == turn){
             this.recallTiles(turnId);
             if(turn == 1) {
-                Collections.shuffle(hand0);
+                Collections.shuffle(hand1);
             }
             else {
-                Collections.shuffle(hand1);
+                Collections.shuffle(hand2);
             }
             return true;
         }
@@ -820,15 +807,15 @@ public class ScrabbleGameState extends GameState {
         if(turnId == turn){
             this.recallTiles(turnId);
             if(turn == 1) {
-                tileBag.add(hand0.get(position));
-                hand0.remove(position);
-                this.drawTile(hand0);
-            }
-            else
-            {
                 tileBag.add(hand1.get(position));
                 hand1.remove(position);
                 this.drawTile(hand1);
+            }
+            else
+            {
+                tileBag.add(hand2.get(position));
+                hand2.remove(position);
+                this.drawTile(hand2);
             }
             return true;
         }
@@ -846,12 +833,12 @@ public class ScrabbleGameState extends GameState {
      */
     public boolean selectBlankTileLetter(int turnId, int position) {
         if(turnId == turn){
-            if(turn == 1 && hand0.get(position).getPointVal() == 0) {
+            if(turn == 1 && hand1.get(position).getPointVal() == 0) {
                 //need to implement more of UI and user code in order to receive selected tile
                 //info
                 //with that info, this would rewrite the tile to display the selected letter
             }
-            if (turn == 2 && hand1.get(position).getPointVal() == 0)
+            if (turn == 2 && hand2.get(position).getPointVal() == 0)
             {
                 //same as above
             }
