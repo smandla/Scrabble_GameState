@@ -211,6 +211,7 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
             Tile t = null;
             switch (selectedView.getId()) {
 
+                //must say getHand1 
                 case R.id.tileOneButton:
                     t = ourGameState.getHand1().get(0);
                     break;

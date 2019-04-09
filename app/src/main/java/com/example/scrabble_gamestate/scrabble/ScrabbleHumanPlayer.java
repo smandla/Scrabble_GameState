@@ -79,9 +79,8 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
      */
     @Override
     protected void initAfterReady() {
-        surface.setGame(game);//tells the surface what game we're playing
+        surface.setGame(game);
     }
-    //note: we went into Kearney's office hours to get help with the logic of this function
 
     /**
      * Returns the GUI's top view object
@@ -137,9 +136,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         // update our state; then update the display
         this.state = (ScrabbleGameState) info;
 
-        theController.setUpdatedState(this.state);//makes sure the state isn't null
-        // (in theory, at least)
-        theController.setGame(this.game);
+        theController.setUpdatedState(this.state);
         updateDisplay();
 
         surface.setState((ScrabbleGameState) info);//makes sure the state isn't null
@@ -168,9 +165,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
             receiveInfo(state);
         }
 
-        //                                                                                                                                   TODO uncomment after other fixes
-        //state.loadDictionary( myActivity.getApplicationContext());//gives the dictionary method
-        // context
+        //state.loadDictionary( myActivity.getApplicationContext()); /
 
         ourScore = activity.findViewById(R.id.playerScore);
         opponentScore = activity.findViewById(R.id.opponentScore);
