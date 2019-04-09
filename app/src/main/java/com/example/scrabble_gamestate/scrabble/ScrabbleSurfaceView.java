@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *This is the primary activity for the Scrabble game
+ *This is the surface on which we draw the board and words
  *
  * @author Sydney Wells
  * @author Sarah Bunger

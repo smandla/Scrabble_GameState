@@ -5,13 +5,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.scrabble_gamestate.R;
+import com.example.scrabble_gamestate.game.Game;
 import com.example.scrabble_gamestate.game.GameHumanPlayer;
 import com.example.scrabble_gamestate.game.GameMainActivity;
 import com.example.scrabble_gamestate.game.Tile;
 import com.example.scrabble_gamestate.game.infoMsg.GameInfo;
 
 /**
+ *This is the human player for the Scrabble Game. It makes sure the current player gets the info
+ * that they need to see, and updates the GUI for that player in accordance with the actions the
+ * human player takes.
  *
+ *  @author Sydney Wells
+ *  @author Sarah Bunger
+ *  @author Kavya Mandla
+ *  @author Meredith Marcinko
+ *  @version February 2019
  */
 public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
@@ -25,13 +34,14 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
     private ScrabbleController theController;
 
+    //buttons for various actions
     private ImageButton swapTileButton;
     private ImageButton skipButton;
     private ImageButton shuffleTileButton;
     private ImageButton dictionaryButton;
     private ImageButton playButton;
 
-
+    //buttons that make up a player's hand
     private ImageButton tileOneButton;
     private ImageButton tileTwoButton;
     private ImageButton tileThreeButton;
@@ -44,6 +54,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
     // the android activity that we are running
     private GameMainActivity myActivity;
+    //surface view on which we're changing the board
     private ScrabbleSurfaceView surface;
 
     ScrabbleGameState latestState = new ScrabbleGameState();
@@ -82,7 +93,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
     }
 
     /**
-     * sets the counter value in the text view
+     * displays the current player's hand to that player
      */
     protected void updateDisplay() {
 
@@ -94,9 +105,9 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         //updates the image resources in the hand to match the value in the tile array
         //TODO after alpha, need to deal with the possibility that human isn't player one
         //make each image button look like the tiles in the human player's hand
-        for (Tile t: state.getHand0()) {
+        for (Tile t: state.getHand1()) {
             int androidId = t.getAndroidId();
-            int index = state.getHand0().indexOf(t);
+            int index = state.getHand1().indexOf(t);
             buttons[index].setImageResource(androidId);
         }
     }
@@ -128,10 +139,10 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         theController.setUpdatedState(this.state);
         updateDisplay();
 
-        surface.setState((ScrabbleGameState) info);
-        surface.invalidate();
+        surface.setState((ScrabbleGameState) info);//makes sure the state isn't null
+        surface.invalidate();//updates the gui view
 
-    }
+    }//note: we used Meredith's Uno game from last semester as an example and reference
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
@@ -154,7 +165,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
             receiveInfo(state);
         }
 
-        //state.loadDictionary( myActivity.getApplicationContext());
+        //state.loadDictionary( myActivity.getApplicationContext()); /
 
         ourScore = activity.findViewById(R.id.playerScore);
         opponentScore = activity.findViewById(R.id.opponentScore);
