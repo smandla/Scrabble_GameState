@@ -11,20 +11,43 @@ import com.example.scrabble_gamestate.R;
 import com.example.scrabble_gamestate.game.Game;
 import com.example.scrabble_gamestate.game.GameHumanPlayer;
 import com.example.scrabble_gamestate.game.Tile;
-
+/**
+ *Controller for the Scrabble Game.
+ *
+ *  @author Sydney Wells
+ *  @author Sarah Bunger
+ *  @author Kavya Mandla
+ *  @author Meredith Marcinko
+ *  @version February 2019
+ */
 public class ScrabbleController implements View.OnTouchListener, View.OnClickListener
 {
 
     private TextView ourScore;
     private TextView opponentScore;
+    //menu with quit and save buttons
     private Spinner menu = null;
     private ImageView theirProfile = null;
     private ImageView ourProfile = null;
+    //the gamestate that we are changing/making decisions based on
     private ScrabbleGameState ourGameState;
+    //the image button in our hand which we've touched
     private View selectedView = null;
     private GameHumanPlayer ourPlayer = null;
     private Game ourGame;
-
+    /**
+     * constructor
+     * @param ourPlayerScore
+     * 		the score for our player
+     * @param theirPlayerScore
+     *
+     * @param theGameState
+     *      the state of the current game
+     * @param theGame
+     *      the current game being played
+     * @param  aPlayer
+     *      the human player we want to send stuff to
+     */
     public ScrabbleController(TextView ourPlayerScore,TextView theirPlayerScore,
                               ScrabbleGameState theGameState,
                               Game theGame, GameHumanPlayer aPlayer ) {
@@ -37,16 +60,20 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
         /*theirProfile = theirProfPic;
         ourProfile = ourProfPic; */
 
-    }
-
+    }//ScrabbleController
+    //setter for the game state
     public void setUpdatedState(ScrabbleGameState state) {
         ourGameState = state;
     }
 
     public void setGame(Game local) {
         ourGame = local;
-    }
-
+    }//setter for the game
+    /**
+     * OnClick method that sets a view as selected or sends an action associated with a button
+     * @param button
+     * 		the button the player has pressed
+     */
     @Override
     public void onClick(View button) {
 
@@ -57,8 +84,8 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
         switch (button.getId()) {
 
             //have a case for each tile button to see if its been clicked
-            //set selectedView instance var to thatt button
-            //then onTouch handles placing of it?
+            //set selectedView instance var to that button
+            //then onTouch handles placing of it
             case R.id.tileOneButton:
                 selectedView = button;
                 Log.i("controller", "tile one touched");
@@ -155,17 +182,25 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
                 break;
 
         }
-    }
+    }//OnClick
+        /**
+        * constructor
+        * @param v
+        * 		the view which has been touched
+        * @param event
+        *      the motionEvent that occurs when you touch a view
+        */
         @Override
         public boolean onTouch (View v, MotionEvent event){
+            //if nothing's there, return
             if(ourGameState == null || ourGame == null){
                 return true;
             }
-
+            //finds out where is being touched
             int xTouch = (int) event.getX();
             int yTouch = (int) event.getY();
 
-
+            //if we havent already touched a hand tile, return
             if(selectedView == null || v == null){
                 return true;
             }
@@ -212,12 +247,13 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
             xTouch = xTouch/ScrabbleSurfaceView.TILE_WIDTH_AND_HEIGHT;
             yTouch = yTouch/ScrabbleSurfaceView.TILE_WIDTH_AND_HEIGHT;
 
+            //tell the game we want to place a tile
             PlaceTileAction placeTileAction = new PlaceTileAction(ourPlayer, xTouch, yTouch, t);
             ourGame.sendAction(placeTileAction);
 
-            this.selectedView = null;
+            this.selectedView = null;//resets selected tile button
             return true;
-        }
+        }//OnTouch
 
        /* @Override
         public boolean onDrag (View v, DragEvent event){
