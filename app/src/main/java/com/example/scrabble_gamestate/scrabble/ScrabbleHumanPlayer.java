@@ -5,7 +5,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.scrabble_gamestate.R;
-import com.example.scrabble_gamestate.game.Game;
 import com.example.scrabble_gamestate.game.GameHumanPlayer;
 import com.example.scrabble_gamestate.game.GameMainActivity;
 import com.example.scrabble_gamestate.game.Tile;
@@ -92,11 +91,12 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
         ImageButton[] buttons = {tileOneButton, tileTwoButton, tileThreeButton, tileFourButton,
                 tileFiveButton, tileSixButton, tileSevenButton};
-
+        //updates the image resources in the hand to match the value in the tile array
         //TODO after alpha, need to deal with the possibility that human isn't player one
-        for (Tile t: state.getHand1()) {
+        //make each image button look like the tiles in the human player's hand
+        for (Tile t: state.getHand0()) {
             int androidId = t.getAndroidId();
-            int index = state.getHand1().indexOf(t);
+            int index = state.getHand0().indexOf(t);
             buttons[index].setImageResource(androidId);
         }
     }
@@ -110,12 +110,17 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
     @Override
     public void receiveInfo(GameInfo info) {
         // ignore the message if it's not a ScrabbleGameState message
-        if (!(info instanceof ScrabbleGameState)) return;
+        /**if (!(info instanceof ScrabbleGameState)) return;
         else if( surface == null)
         {
             return;
+        }*/
+        if (info instanceof ScrabbleGameState) {
+            this.latestState = (ScrabbleGameState) info;
+        } else {
+            //TODO: should do more here?
+            return;
         }
-
 
         // update our state; then update the display
         this.state = (ScrabbleGameState) info;
@@ -172,7 +177,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
         playButton = activity.findViewById(R.id.playButton);
         playButton.setOnClickListener(theController);
 
-        //sets the listeners for the player hand tiles for drag and drop
+        //sets the listeners for the player hand tiles for onClick
         tileOneButton = activity.findViewById(R.id.tileOneButton);
         tileOneButton.setOnClickListener(theController);
 
