@@ -588,7 +588,7 @@ public class ScrabbleGameState extends GameState {
                 onBoard.add(tile);
 
                 //remove tile from hand so that we can't place it twice
-                //TODO even after this line of code executes, the selected tile is still in the hand
+                //TODO even after this line of code executes, the selected tile is still in the hand!
                 //hand0.remove(tile.getPositionInHand());
 
                 //remove from hand will shift everything in arrayList left by one
