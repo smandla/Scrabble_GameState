@@ -20,6 +20,23 @@ public class SkipTurnAction extends GameAction {
      * @param player the player who created the action
      */
     public SkipTurnAction(GamePlayer player) {
+        //if skip button is pressed the player whose turn it is should be skipped
+        //skip player1 turn
+        //
+        //if(button is pressed)
+        //{
+        //  int turn = state.getTurn();
+        //  if(turn == 0)
+        //  {
+        //      state.setTurn(1);
+        //  }
+        //  else
+        //  {
+        //      state.setTurn(0);
+        //  }
+        //  return true;
+        //}
+        //return true;
         super(player);
     }
 }

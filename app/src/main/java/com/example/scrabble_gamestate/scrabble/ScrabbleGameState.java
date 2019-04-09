@@ -174,13 +174,13 @@ public class ScrabbleGameState extends GameState {
             Tile copy = new Tile(t);
             tileBag.add(copy);
         }
-
+        hand1 = new ArrayList<Tile>(7);
         for (Tile t : state.hand1) {
             Tile copy = new Tile(t);
             hand1.add(copy);
         }
 
-
+        hand2 = new ArrayList<Tile>(7);
         for (Tile t : state.hand2) {
             Tile copy = new Tile(t);
             hand2.add(copy);

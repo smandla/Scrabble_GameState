@@ -124,6 +124,8 @@ public class ScrabbleSurfaceView extends SurfaceView {
             }
         }
 
+        //note: left is the column, and top is the row!!!
+
         //adding in double letter bonuses
         canvas.drawBitmap(doubleLetterCell,3*TILE_WIDTH_AND_HEIGHT,0*TILE_WIDTH_AND_HEIGHT,
                 null);
@@ -187,7 +189,7 @@ public class ScrabbleSurfaceView extends SurfaceView {
         canvas.drawBitmap(doubleWordCell,7*TILE_WIDTH_AND_HEIGHT,7*TILE_WIDTH_AND_HEIGHT,null);
 
         canvas.drawBitmap(doubleWordCell,4*TILE_WIDTH_AND_HEIGHT,10*TILE_WIDTH_AND_HEIGHT,null);
-        canvas.drawBitmap(doubleWordCell,9*TILE_WIDTH_AND_HEIGHT,10*TILE_WIDTH_AND_HEIGHT,null);
+        canvas.drawBitmap(doubleWordCell,10*TILE_WIDTH_AND_HEIGHT,10*TILE_WIDTH_AND_HEIGHT,null);
 
         canvas.drawBitmap(doubleWordCell,3*TILE_WIDTH_AND_HEIGHT,11*TILE_WIDTH_AND_HEIGHT,null);
         canvas.drawBitmap(doubleWordCell,11*TILE_WIDTH_AND_HEIGHT,11*TILE_WIDTH_AND_HEIGHT,null);
@@ -248,6 +250,7 @@ public class ScrabbleSurfaceView extends SurfaceView {
         }//note: we used Sydney's boyfriend Andrew for help with some of the array logic here
 
     } //onDraw
+
     public void setState(ScrabbleGameState state)//setter for game state
     {
         this.ourState = state;
