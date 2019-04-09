@@ -111,7 +111,7 @@ public class ScrabbleGameState extends GameState {
     private boolean enoughPlayers; //because of quit functionality, must make sure there's at least
     // 2 players
 
-    private HashSet<String> dictionary = new HashSet<>();//the basic dictionary for playWord
+    //private HashSet<String> dictionary = new HashSet<>();//the basic dictionary for playWord
 
     /**
      * Constructor for objects of class ScrabbleGameState
@@ -170,12 +170,10 @@ public class ScrabbleGameState extends GameState {
         //making a Tile copy of each Tile in The One True tileBag, then adding it to a copy tileBag
         //don't need to actually make/shuffle a new tilebag,
         // as it already exists in The One True State
-        tileBag = new ArrayList<Tile>(100);
         for (Tile t : state.tileBag) {
             Tile copy = new Tile(t);
             tileBag.add(copy);
         }
-
         hand1 = new ArrayList<Tile>(7);
         for (Tile t : state.hand1) {
             Tile copy = new Tile(t);
@@ -188,7 +186,6 @@ public class ScrabbleGameState extends GameState {
             hand2.add(copy);
         }
 
-        //TODO triblehorn fixes!
         onBoard = new ArrayList<Tile>(7);
         for (Tile t : state.onBoard) {
             Tile copy = new Tile(t);
@@ -206,14 +203,14 @@ public class ScrabbleGameState extends GameState {
      */
     public void loadDictionary( Context cxt )
     {
-        InputStream is = cxt.getResources().openRawResource(R.raw.dictionary);//opens raw text file
-        Scanner isScan = new Scanner(is);
-        while(isScan.hasNext())//scans each line into the hashSet
-        {
-            String word = isScan.nextLine().trim();
-            dictionary.add(word);
-        }
-        isScan.close();
+//        InputStream is = cxt.getResources().openRawResource(R.raw.dictionary);//opens raw text file
+//        Scanner isScan = new Scanner(is);
+//        while(isScan.hasNext())//scans each line into the hashSet
+//        {
+//            String word = isScan.nextLine().trim();
+//            dictionary.add(word);
+//        }
+//        isScan.close();
     }
     /**
      * creates a copy of the board
@@ -626,128 +623,129 @@ public class ScrabbleGameState extends GameState {
      */
     public boolean playWord(int turnId) {
 
-
-        if(turnId == turn && onBoard != null) {
-
-            Vector<String> wordsPlayed = new Vector<>();
-            Tile[][] tempBoard = new Tile[15][15];
-            this.copyBoard(this, tempBoard);
-            //iterates thru the onBoard array and adds all of them to the new board array
-            for( Tile t: onBoard)
-            {
-                if(tempBoard[t.getxCoord()][t.getyCoord()] != null)
-                {
-                    tempBoard[t.getxCoord()][t.getyCoord()] = t;
-                }
-            }
-            for(int row = 0; row < 15; row++)//Scan each row for horizontal words
-            {
-                String wordToCheck="";	//Start with empty word
-                for(int position = 0; position < 15; position++)
-                {
-                    if(tempBoard[position][row] != null)//If we got a letter
-                    {
-                        wordToCheck+=tempBoard[position][row];	//Add it to the current word
-                    }
-                    else
-                    {
-                        if (wordToCheck.length()>1)	//Ignore empty word, single letter
-                            wordsPlayed.add(wordToCheck);
-                        wordToCheck="";	//Clear wordToCheck for next time
-
-                    }
-
-                }
-                if (wordToCheck.length()>1)	//One more time in case we're at the
-                    // rightmost edge
-                    wordsPlayed.add(wordToCheck);
-            }
-            for(int col = 0; col < 15; col++)//Scan each row for horizontal words
-            {
-                String wordToCheck="";	//Start with empty word
-                for(int position = 0; position < 15; position++)
-                {
-                    if(tempBoard[col][position] != null)//If we got a letter
-                    {
-                        wordToCheck+=tempBoard[col][position];	//Add it to the current word
-                    }
-                    else
-                    {
-                        if (wordToCheck.length()>1)	//Ignore empty word, single letter
-                            wordsPlayed.add(wordToCheck);
-                        wordToCheck="";	//Clear wordToCheck for next time
-
-                    }
-
-                }
-                if (wordToCheck.length()>1)	//One more time in case we're at the
-                    // bottom-most edge
-                    wordsPlayed.add(wordToCheck);
-            }
-            for(String s: wordsPlayed)
-            {
-                if(dictionary.contains(s) == false)//if its not a word, dont do it
-                {
-                    return false;
-                }
-            }//note:Sydney's boyfriend Andrew helped with some of the array logic here,
-            // and also we went to Kearney's office hours
-
-
-
-            int counter = 0;
-            int wordBonusVal = 1;
-            for(Tile t: onBoard) {
-                wordBonusVal *= (wordBonuses[t.getxCoord()][t.getyCoord()]);
-                counter += letterBonuses[t.getxCoord()][t.getyCoord()] * t.getPointVal();
-
-                //the following if statements take care of letters that have already been played
-                //(so will not show up in onBoard) but must be added to the player's score
-
-                //add tile value to points if the space to the left of Tile t isn't empty and
-                //the Tile in that space isn't already in the list (each tile will almost
-                //always have at least one neighbor that's already part of the list, thanks to
-                //the connectedness of words)
-                if(board[t.getxCoord() - 1][t.getyCoord()] != null &&
-                        !onBoard.contains(board[t.getxCoord() - 1][t.getyCoord()])){
-                    counter += board[t.getxCoord() - 1][t.getyCoord()].getPointVal();
-                }
-
-                //tile above
-                if(board[t.getxCoord()][t.getyCoord() + 1] != null &&
-                        !onBoard.contains(board[t.getxCoord()][t.getyCoord() + 1])){
-                    counter += board[t.getxCoord()][t.getyCoord() + 1].getPointVal();
-                }
-
-                //tile to the right
-                if(board[t.getxCoord() + 1][t.getyCoord()] != null &&
-                        !onBoard.contains(board[t.getxCoord() + 1][t.getyCoord()])){
-                    counter += board[t.getxCoord() + 1][t.getyCoord()].getPointVal();
-                }
-
-                //tile below
-                if(board[t.getxCoord()][t.getyCoord() - 1] != null &&
-                        !onBoard.contains(board[t.getxCoord()][t.getyCoord() - 1])){
-                    counter += board[t.getxCoord()][t.getyCoord() - 1].getPointVal();
-                }
-            }
-
-            if(turn == 1) {
-                playerZeroScore += (counter * wordBonusVal);
-                turn++;
-                this.drawTile(hand1);
-            }
-            else {
-                playerOneScore += (counter * wordBonusVal);
-                turn--;
-                this.drawTile(hand2);
-            }
-            onBoard.clear();
-            return true;
-        }
-        else{
-            return false;
-        }
+        return false;
+//        if(turnId == turn && onBoard != null) {
+//
+//            Vector<String> wordsPlayed = new Vector<>();
+//            Tile[][] tempBoard = new Tile[15][15];
+//            this.copyBoard(this, tempBoard);
+//            //iterates thru the onBoard array and adds all of them to the new board array
+//            for( Tile t: onBoard)
+//            {
+//                if(tempBoard[t.getxCoord()][t.getyCoord()] != null)
+//                {
+//                    return false;
+//                }
+//                tempBoard[t.getxCoord()][t.getyCoord()] = t;
+//            }
+//            for(int row = 0; row < 15; row++)//Scan each row for horizontal words
+//            {
+//                String wordToCheck="";	//Start with empty word
+//                for(int position = 0; position < 15; position++)
+//                {
+//                    if(tempBoard[position][row] != null)//If we got a letter
+//                    {
+//                        wordToCheck+=tempBoard[position][row];	//Add it to the current word
+//                    }
+//                    else
+//                    {
+//                        if (wordToCheck.length()>1)	//Ignore empty word, single letter
+//                            wordsPlayed.add(wordToCheck);
+//                        wordToCheck="";	//Clear wordToCheck for next time
+//
+//                    }
+//
+//                }
+//                if (wordToCheck.length()>1)	//One more time in case we're at the
+//                    // rightmost edge
+//                    wordsPlayed.add(wordToCheck);
+//            }
+//            for(int col = 0; col < 15; col++)//Scan each row for horizontal words
+//            {
+//                String wordToCheck="";	//Start with empty word
+//                for(int position = 0; position < 15; position++)
+//                {
+//                    if(tempBoard[col][position] != null)//If we got a letter
+//                    {
+//                        wordToCheck+=tempBoard[col][position];	//Add it to the current word
+//                    }
+//                    else
+//                    {
+//                        if (wordToCheck.length()>1)	//Ignore empty word, single letter
+//                            wordsPlayed.add(wordToCheck);
+//                        wordToCheck="";	//Clear wordToCheck for next time
+//
+//                    }
+//
+//                }
+//                if (wordToCheck.length()>1)	//One more time in case we're at the
+//                    // bottom-most edge
+//                    wordsPlayed.add(wordToCheck);
+//            }
+//            for(String s: wordsPlayed)
+//            {
+//                if(dictionary.contains(s) == false)//if its not a word, dont do it
+//                {
+//                    return false;
+//                }
+//            }//note:Sydney's boyfriend Andrew helped with some of the array logic here,
+//            // and also we went to Kearney's office hours
+//
+//
+//
+//            int counter = 0;
+//            int wordBonusVal = 1;
+//            for(Tile t: onBoard) {
+//                wordBonusVal *= (wordBonuses[t.getxCoord()][t.getyCoord()]);
+//                counter += letterBonuses[t.getxCoord()][t.getyCoord()] * t.getPointVal();
+//
+//                //the following if statements take care of letters that have already been played
+//                //(so will not show up in onBoard) but must be added to the player's score
+//
+//                //add tile value to points if the space to the left of Tile t isn't empty and
+//                //the Tile in that space isn't already in the list (each tile will almost
+//                //always have at least one neighbor that's already part of the list, thanks to
+//                //the connectedness of words)
+//                if(board[t.getxCoord() - 1][t.getyCoord()] != null &&
+//                        !onBoard.contains(board[t.getxCoord() - 1][t.getyCoord()])){
+//                    counter += board[t.getxCoord() - 1][t.getyCoord()].getPointVal();
+//                }
+//
+//                //tile above
+//                if(board[t.getxCoord()][t.getyCoord() + 1] != null &&
+//                        !onBoard.contains(board[t.getxCoord()][t.getyCoord() + 1])){
+//                    counter += board[t.getxCoord()][t.getyCoord() + 1].getPointVal();
+//                }
+//
+//                //tile to the right
+//                if(board[t.getxCoord() + 1][t.getyCoord()] != null &&
+//                        !onBoard.contains(board[t.getxCoord() + 1][t.getyCoord()])){
+//                    counter += board[t.getxCoord() + 1][t.getyCoord()].getPointVal();
+//                }
+//
+//                //tile below
+//                if(board[t.getxCoord()][t.getyCoord() - 1] != null &&
+//                        !onBoard.contains(board[t.getxCoord()][t.getyCoord() - 1])){
+//                    counter += board[t.getxCoord()][t.getyCoord() - 1].getPointVal();
+//                }
+//            }
+//
+//            if(turn == 1) {
+//                playerZeroScore += (counter * wordBonusVal);
+//                turn++;
+//                this.drawTile(hand1);
+//            }
+//            else {
+//                playerOneScore += (counter * wordBonusVal);
+//                turn--;
+//                this.drawTile(hand2);
+//            }
+//            onBoard.clear();
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
 
     }//end playWord
 
