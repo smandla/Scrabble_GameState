@@ -177,31 +177,31 @@ public class ScrabbleController implements View.OnTouchListener, View.OnClickLis
             switch (selectedView.getId()) {
 
                 case R.id.tileOneButton:
-                    t = ourGameState.getHand0().get(0);
+                    t = ourGameState.getHand1().get(0);
                     break;
 
                 case R.id.tileTwoButton:
-                    t = ourGameState.getHand0().get(1);
+                    t = ourGameState.getHand1().get(1);
                     break;
 
                 case R.id.tileThreeButton:
-                    t = ourGameState.getHand0().get(2);
+                    t = ourGameState.getHand1().get(2);
                     break;
 
                 case R.id.tileFourButton:
-                    t = ourGameState.getHand0().get(3);
+                    t = ourGameState.getHand1().get(3);
                     break;
 
                 case R.id.tileFiveButton:
-                    t = ourGameState.getHand0().get(4);
+                    t = ourGameState.getHand1().get(4);
                     break;
 
                 case R.id.tileSixButton:
-                    t = ourGameState.getHand0().get(5);
+                    t = ourGameState.getHand1().get(5);
                     break;
 
                 case R.id.tileSevenButton:
-                    t = ourGameState.getHand0().get(6);
+                    t = ourGameState.getHand1().get(6);
                     break;
 
                 default:
