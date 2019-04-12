@@ -1,6 +1,7 @@
 package com.example.scrabble_gamestate.scrabble;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
     private TextView ourScore;
     private TextView opponentScore;
+    private TextView playerTurn;
 
     private ScrabbleController theController;
 
@@ -40,6 +42,7 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
     private ImageButton shuffleTileButton;
     private ImageButton dictionaryButton;
     private ImageButton playButton;
+    private Button recallButton;
 
     //buttons that make up a player's hand
     private ImageButton tileOneButton;
@@ -169,8 +172,11 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
         ourScore = activity.findViewById(R.id.playerScore);
         opponentScore = activity.findViewById(R.id.opponentScore);
+        playerTurn = activity.findViewById(R.id.whosTurn);
 
-        theController = new ScrabbleController(ourScore, opponentScore, state, game, this );
+
+
+        theController = new ScrabbleController(ourScore, opponentScore, playerTurn, state, game, this );
 
         //sets the listeners for the gameplay buttons
         swapTileButton = activity.findViewById(R.id.swapTileButtton);
@@ -187,6 +193,9 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
         playButton = activity.findViewById(R.id.playButton);
         playButton.setOnClickListener(theController);
+
+        recallButton = activity.findViewById(R.id.recallTiles);
+        recallButton.setOnClickListener(theController);
 
         //sets the listeners for the player hand tiles for onClick
         tileOneButton = activity.findViewById(R.id.tileOneButton);
@@ -209,6 +218,8 @@ public class ScrabbleHumanPlayer extends GameHumanPlayer {
 
         tileSevenButton = activity.findViewById(R.id.tileSevenButton);
         tileSevenButton.setOnClickListener(theController);
+
+
 
         // remember the field that we update to display the counter's value
         /*this.counterValueTextView =

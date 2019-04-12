@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Vector;
+import android.widget.TextView;
 /**
  *The State of the game. Includes values for all tiles, the tile bag, and each square on the board.
  *
@@ -87,8 +88,10 @@ public class ScrabbleGameState extends GameState {
                                     {3,1,1,1,1,1,1,3,1,1,1,1,1,1,3}};
 
     //instance variable
-    private int playerZeroScore;
-    private int playerOneScore;
+    private int playerZeroScore = 0;
+    private int playerOneScore = 0;
+
+    private TextView whosTurn;
 
     private int playerZeroId;
     private int playerOneId;
@@ -539,6 +542,9 @@ public class ScrabbleGameState extends GameState {
             str = str + "\nPoints: " + t.getPointVal() + " Letter: " + t.getTileLetter();
         }
 
+
+        String turnStr = "It is " + playerOneId + "'s  turn";
+
         for (int i = 0; i < 15; i++) {
             //returns after every row, so board prints in a 15 x 15 grid
             str = str + "\n" + i + " ";
@@ -547,7 +553,6 @@ public class ScrabbleGameState extends GameState {
                 str = str + board[i][j] + " ";
             }
         }
-
         return str;
     }
 
@@ -593,6 +598,7 @@ public class ScrabbleGameState extends GameState {
             return false;
         }
     }
+
 
     /**
      * Method that checks if it's the player's turn and removes all tiles that have been placed on
@@ -771,6 +777,7 @@ public class ScrabbleGameState extends GameState {
         }
 
     }
+
 
     /**
      * method that checks if it is the player's turn, recalls all tiles to the player's hand, and

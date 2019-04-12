@@ -135,7 +135,7 @@ public class ScrabbleLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
 
-        if(gameState.getHand0().size() > 0 && gameState.getHand1().size() > 0){
+        if(gameState.getHand1().size() > 0 && gameState.getHand2().size() > 0){
             //both players still have tiles in their hands
             //TODO figure out way to track # consecutive skips (for after alpha)
 
